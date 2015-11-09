@@ -1,22 +1,22 @@
 %% Exercise 1a-c)
 % a) see applyKernel
 % b) & c) see filterImage
-buildingImg = double(imread('../../images/building.jpg'));
+buildingImg = im2double(imread('../../images/building.jpg'));
 gaussianKernel = fspecial('gaussian', 5, 1);
 binomialApproxKernel = binomialApproximationKernel(2);
 figure;
     subplot(1, 3, 1);
-        imshow(filterImage(buildingImg, gaussianKernel), [0 255]);
+        imshow(filterImage(buildingImg, gaussianKernel));
         title('Gaussian Blur');
     subplot(1, 3, 2);
-        imshow(buildingImg, [0 255]);
+        imshow(buildingImg);
         title('Original');
     subplot(1, 3, 3);
-        imshow(filterImage(buildingImg, binomialApproxKernel), [0 255]);
+        imshow(filterImage(buildingImg, binomialApproxKernel));
         title('Binomial Blur');
 
 %% Exercise 1d)
-buildingImg = double(imread('../../images/building.jpg'));
+buildingImg = im2double(imread('../../images/building.jpg'));
 figure;
     for i = 1 : 4
         subplot(2, 4, i);
@@ -25,7 +25,7 @@ figure;
             tic;
             filteredBuilding = filterImage(buildingImg, kernel);
             time = toc;
-            imshow(filteredBuilding, [0 255]);
+            imshow(filteredBuilding);
             title(['Non-sep. Kernel ' num2str(kernelSize) ...
                    'x' num2str(kernelSize)...
                    '; Time: ' num2str(time) ' ms']);
@@ -36,7 +36,7 @@ figure;
             tic;
             filteredBuilding = separatedFilterImage(buildingImg, kernel);
             time = toc;
-            imshow(filteredBuilding, [0 255]);
+            imshow(filteredBuilding);
             title(['Sep. Kernel ' num2str(kernelSize) ...
                    'x' num2str(kernelSize)...
                    '; Time: ' num2str(time) ' ms']);
@@ -45,36 +45,36 @@ figure;
         
 %% Exercise 2)
 %% Exercise 2a)
-carImg = double(imread('../../images/car.jpg'));
+carImg = im2double(imread('../../images/car.jpg'));
 
 figure;
     subplot(2, 4, 1);
-        imshow(filterImage(carImg, [1 0 -1]'), [0 255]);
+        imshow(filterImage(carImg, [1 0 -1]'));
         title('Simple Gradient, +V');
     subplot(2, 4, 5);
-        imshow(filterImage(carImg, [-1 0 1]'), [0 255]);
+        imshow(filterImage(carImg, [-1 0 1]'));
         title('Simple Gradient, -V');
     subplot(2, 4, 2);
-        imshow(filterImage(carImg, [1 0 -1]), [0 255]);
+        imshow(filterImage(carImg, [1 0 -1]));
         title('Simple Gradient, +H');
     subplot(2, 4, 6);
-        imshow(filterImage(carImg, [-1 0 1]), [0 255]);
+        imshow(filterImage(carImg, [-1 0 1]));
         title('Simple Gradient, -H');
     subplot(2, 4, 3);
-        imshow(filterImage(carImg, fspecial('sobel')), [0 255]);
+        imshow(filterImage(carImg, fspecial('sobel')));
         title('Sobel, +H');
     subplot(2, 4, 7);
-        imshow(filterImage(carImg, fspecial('sobel')'), [0 255]);
+        imshow(filterImage(carImg, fspecial('sobel')'));
         title('Sobel, +V');
     subplot(2, 4, 4);
-        imshow(filterImage(carImg, fspecial('prewitt')), [0 255]);
+        imshow(filterImage(carImg, fspecial('prewitt')));
         title('Prewitt, +H');
     subplot(2, 4, 8);
-        imshow(filterImage(carImg, fspecial('laplacian')), [0 255]);
+        imshow(filterImage(carImg, fspecial('laplacian')));
         title('Laplacian, +H');
 
 %% Exercise 2b)
-streetImg = double(imread('../../images/street.png'));
+streetImg = im2double(imread('../../images/street.png'));
 
 filteredStreetImg = filterImage(streetImg, fspecial('laplacian'));
 
@@ -98,73 +98,73 @@ for y = 1 : size(filteredStreetImg, 1) - 1
 end
 figure;
     subplot(2, 2, 1);
-        imshow(streetImg, [0 255]);
+        imshow(streetImg);
         title('Original');
     subplot(2, 2, 2);
-        imshow(filteredStreetImg, [0 255]);
+        imshow(filteredStreetImg);
         title('Laplacian filter');
     subplot(2, 2, 3);
-        imshow(zeroCrossings, [0 1]);
+        imshow(zeroCrossings);
         title('ZeroCrossings');
     subplot(2, 2, 4);
-        imshow(zeroCrossingsTheta, [0 1]);
+        imshow(zeroCrossingsTheta);
         title(['ZeroCrossings Theta = ' num2str(zeroTheta)]);
 
 %% Exercise 3
-noisyStreet = double(imnoise(imread('../../images/street.png'), 'gaussian'));
-saltyStreet = double(imnoise(imread('../../images/street.png'), 'salt & pepper'));
+noisyStreet = imnoise(im2double(imread('../../images/street.png')), 'gaussian');
+saltyStreet = imnoise(im2double(imread('../../images/street.png')), 'salt & pepper');
 
-minFunc = @(patch) min(min(patch));
-maxFunc = @(patch) max(max(patch));
+minFunc = @(patch) min(patch(:));
+maxFunc = @(patch) max(patch(:));
 selectMiddle = @(array) array(ceil(end/2));
 medFunc = @(patch) selectMiddle(sort(patch(:)));
 snnFunc = @symmetricNearestNeighbour;
 
 figure;
     subplot(2, 5, 1);
-        imshow(noisyStreet, [0 255]);
+        imshow(noisyStreet);
         title('Gaussian');
     subplot(2, 5, 6);
-        imshow(saltyStreet, [0 255]);
+        imshow(saltyStreet);
         title('Salt&Pepper');
     % a)
     subplot(2, 5, 2);
-        imshow(filterImageFunc(noisyStreet, minFunc, 1, 1), [0 255]);
+        imshow(filterImageFunc(noisyStreet, minFunc, 1, 1));
         title('Min');
     subplot(2, 5, 7);
-        imshow(filterImageFunc(saltyStreet, minFunc, 1, 1), [0 255]);
+        imshow(filterImageFunc(saltyStreet, minFunc, 1, 1));
         title('Min');
     subplot(2, 5, 3);
-        imshow(filterImageFunc(noisyStreet, maxFunc, 1, 1), [0 255]);
+        imshow(filterImageFunc(noisyStreet, maxFunc, 1, 1));
         title('Max');
     subplot(2, 5, 8);
-        imshow(filterImageFunc(saltyStreet, maxFunc, 1, 1), [0 255]);
+        imshow(filterImageFunc(saltyStreet, maxFunc, 1, 1));
         title('Max');
     % b)
     subplot(2, 5, 4);
-        imshow(filterImageFunc(noisyStreet, medFunc, 1, 1), [0 255]);
+        imshow(filterImageFunc(noisyStreet, medFunc, 1, 1));
         title('Median');
     subplot(2, 5, 9);
-        imshow(filterImageFunc(saltyStreet, medFunc, 1, 1), [0 255]);
+        imshow(filterImageFunc(saltyStreet, medFunc, 1, 1));
         title('Median');
     % c)
     subplot(2, 5, 5);
-        imshow(filterImageFunc(noisyStreet, snnFunc, 1, 1), [0 255]);
+        imshow(filterImageFunc(noisyStreet, snnFunc, 1, 1));
         title('SNN');
     subplot(2, 5, 10);
-        imshow(filterImageFunc(saltyStreet, snnFunc, 1, 1), [0 255]);
+        imshow(filterImageFunc(saltyStreet, snnFunc, 1, 1));
         title('SNN');
 
 %% Exercise 4a)
-noteImg = double(imread('../../images/note.png'))/255;
+noteImg = im2double(imread('../../images/note.png'));
 
-erosionSimple = @(patch) all(all(patch));
-dilationSimple = @(patch) any(any(patch));
+erosionSimple = @(patch) all(patch(:));
+dilationSimple = @(patch) any(patch(:));
 
 mask = [1 0 0; 1 0 0; 1 0 0];
-erosionMask = @(patch) all(all(patch == mask));
-mask = [1 0 0 0 0; 0 0 0 0 0; 0 0 0 0 1];
-dilationMask = @(patch) any(any((patch == mask) == mask));
+erosionMask = @(patch) all(patch(:) == mask(:));
+mask = [0 0 0 0 0; 0 0 0 0 0; 0 0 0 0 1];
+dilationMask = @(patch) any(patch(:) == mask(:));
 
 figure;
     subplot(2, 3, 1);
@@ -184,9 +184,9 @@ figure;
         title('Dilation Complex')
 
 %% Exercise 4b)
-leafImg = double(imread('../../images/leaf.png'))/255;
+leafImg = im2double(imread('../../images/leaf.png'));
 
-erosion = @(patch) all(all(patch));
+erosion = @(patch) all(patch(:));
 
 distanceTransformLeaf = zeros(size(leafImg));
 remainingLeaf = leafImg;
@@ -209,12 +209,12 @@ figure;
         imshow(leafImg - filterImageFunc(leafImg, erosion, 1, 1));
         title('Border');
     subplot(2, 2, 4);
-        imshow(distanceTransformLeaf, [min(min(distanceTransformLeaf)) max(max(distanceTransformLeaf))])
+        imshow(distanceTransformLeaf, [min(distanceTransformLeaf(:)) max(distanceTransformLeaf(:))])
         title('Distance Transform');
 
 %% Exercise 4c)
-shapeA = double(imread('../../images/leaf.png'))/255;
-shapeB = double(imread('../../images/leafUpsideDown.png'))/255;
+shapeA = im2double(imread('../../images/leaf.png'));
+shapeB = im2double(imread('../../images/leafUpsideDown.png'));
 distA = bwdist(shapeA);
 distB = bwdist(shapeB);
 
