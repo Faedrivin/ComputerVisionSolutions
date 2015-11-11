@@ -20,7 +20,7 @@ buildingImg = im2double(imread('../../images/building.jpg'));
 figure;
     for i = 1 : 4
         subplot(2, 4, i);
-            kernelSize = 2 * i + 1;
+            kernelSize = 2 * i * 20 + 1;
             kernel = fspecial('gaussian', kernelSize, 1);
             tic;
             filteredBuilding = filterImage(buildingImg, kernel);
@@ -31,10 +31,13 @@ figure;
                    '; Time: ' num2str(time) ' ms']);
             
         subplot(2, 4, i + 4);
-            kernelSize = 2 * i + 1;
+            kernelSize = 2 * i * 20 + 1;
             kernel = fspecial('gaussian', kernelSize, 1);
+            [U, S, V] = svd(kernel);
+            kernelCol = U(:,1) * sqrt(S(1));
+            kernelRow = sqrt(S(1)) * V(:,1)';
             tic;
-            filteredBuilding = separatedFilterImage(buildingImg, kernel);
+            filteredBuilding = filterImage(filterImage(buildingImg, kernelRow), kernelCol);
             time = toc;
             imshow(filteredBuilding);
             title(['Sep. Kernel ' num2str(kernelSize) ...
@@ -88,7 +91,7 @@ for y = 1 : size(filteredStreetImg, 1) - 1
 end
 
 zeroCrossingsTheta = zeros(size(filteredStreetImg));
-zeroTheta = 15;
+zeroTheta = 10/255;
 for y = 1 : size(filteredStreetImg, 1) - 1
     for x = 1 : size(filteredStreetImg, 2) - 1
         zeroCrossingsTheta(y,x) = any(...
