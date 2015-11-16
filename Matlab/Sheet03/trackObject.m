@@ -13,7 +13,6 @@ function imageOut = trackObject( imageIn )
                  max(x-4, 1):min(x+4, size(imageOut, 2)), ...
                  :) = 0;
         trajectory(end+1, 1:2) = [y x];
-        disp([y x])
     end
     if size(trajectory, 1) > 1
         for coords = trajectory'
