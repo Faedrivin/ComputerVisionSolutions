@@ -6,5 +6,6 @@ function [ resultValue ] = applyKernel( patch, kernel )
 %                         k(i+m, j+n) \cdot g(x+i, y+j) $$
 %
 %   This means the image patch has to have the same size as the kernel.
-    resultValue = sum(sum(patch .* kernel));
+    % resultValue = sum(sum(patch .* kernel));
+    resultValue = patch(:)' * kernel(:);
 end
