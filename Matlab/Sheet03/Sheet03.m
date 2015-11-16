@@ -26,3 +26,6 @@ applyWebcamFun(@markObject, url);
 applyWebcamFun(@trackObject, url);
 % clean up the trajectory
 clear trackObject;
+
+%% Exercise 2
+
