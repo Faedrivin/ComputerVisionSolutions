@@ -38,7 +38,7 @@ figure;
         drawnow
         
     for K = 2:10
-        [~, centers, ~, ~, kStar] = kmeansClustering(peppers, K, epsilon, 0);
+        [~, centers, ~, ~, kStar] = kmeansClustering(peppers, K, eps, 0);
         subplot(2, 5, K);
             imshow(reshape(centers(kStar,:),size(peppers)));
             title(['K = ' num2str(K)])
@@ -120,7 +120,7 @@ K = 5;
 cam = webcam;
 if length(cam.AvailableResolutions) > 1
     cam.Resolution = cam.AvailableResolutions{length(cam.AvailableResolutions)/2};
-end    
+end
 disp(['Camera resolution is ' cam.Resolution])
 
 f = figure;
