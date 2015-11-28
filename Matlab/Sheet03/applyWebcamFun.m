@@ -3,14 +3,12 @@ function image = applyWebcamFun( imagefuns, url )
 
     % Determine existing webcam. If none found, use IP Webcam.
     if size(webcamlist, 1) == 0
-        webcam = url;
+        cam = url;
         snap = @(ip) imread(strcat('http://', ip, ':8080/shot.jpg'));
     else
+        cam = webcam;
         snap = @snapshot;
     end
-    
-    % Acquire cam
-    cam = webcam;
 
     frame = 1;
     fig = figure;
