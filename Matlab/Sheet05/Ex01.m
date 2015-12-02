@@ -12,7 +12,7 @@ imshow(par)
 title('CUTE!')
 
 subplot(1,3,2)
-scatter3(colors(:,1),colors(:,2),colors(:,3),[],colors);
+scatter3(colors(:,1),colors(:,2),colors(:,3),1,colors);
 title('Parrot in RGB')
 
 colorsHsv = reshape(rgb2hsv(par),[],3);
@@ -24,6 +24,6 @@ v = colorsHsv(:,3);
 
 
 subplot(1,3,3)
-scatter3(sind(h).*s.*v,cosd(h).*s.*v,v,[],colors);
+scatter3(sind(h).*s.*v+0.5,cosd(h).*s.*v+0.5,v,1,colors);
 title('Parrot in HSV')
 
