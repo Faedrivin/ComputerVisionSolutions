@@ -28,8 +28,8 @@ function [C, w, t, W, k] = kmeansClustering(image, K, epsilon, plot)
     w = repmat(min(D), K, 1) + w .* repmat((max(D) - min(D)), K, 1);
     W{t} = w;
     
-    % since matlab allows now GOTO, we use breaks and negate 6. (see below)
-    while t < 1000
+    % since matlab has no GOTO, we use breaks and negate 6. (see below)
+    while 1
         % 3. initialize clusters
         C = cell(K, 1);
 
