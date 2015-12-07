@@ -9,7 +9,7 @@ imgs(4, 200, 100) = 1; % somwhere in the lower left quadrant
 plothough(imgs);
 
 %% Exercise 1b)
-imgs = zeros(1, 256, 256);
+imgs = zeros(3, 256, 256);
 imgs(1, [64 128 192], 128) = 1; % vertical pixels
 imgs(2, 64:32:192, 128) = 1;    % more vertical pixels
 imgs(3, 128, 20:20:236) = 1;    % horizontal pixels

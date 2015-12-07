@@ -15,7 +15,7 @@ function plothough(bwimages, houghtransform)
                 imshow(squeeze(bwimages(i,:,:)));
             subplot(2, subpltcols, subpltcols + i);
                 [H, theta, rho] = houghtransform(squeeze(bwimages(i,:,:)));
-                imshow(mat2gray(H), 'XData', theta, 'YData', rho);
+                imshow(imadjust(mat2gray(H)), 'XData', theta, 'YData', rho);
                 xlabel('\theta'), ylabel('\rho');
                 axis on, axis normal;
             drawnow
