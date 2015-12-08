@@ -9,7 +9,7 @@ function [ H, theta, rho ] = houghtransform( BW )
     
     %% 1.
     % angles (not 0...pi as requested to compare with built-in)
-    theta = linspace(-pi/2, pi/2);
+    theta = linspace(0, pi);
     % possible distances
     rhoshift = ceil(pdist([0 0; size(BW)]));
     rho = -rhoshift : rhoshift;
