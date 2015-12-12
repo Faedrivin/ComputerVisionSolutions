@@ -5,6 +5,7 @@ dollyAmplitude = abs(dollyFFT);
 dollyPhase = angle(dollyFFT);
 
 %% Exercise 1a)
+
 figure;
     subplot(1, 3, 1);
         histogram(dollyAmplitude);
@@ -19,6 +20,7 @@ figure;
         title('Phase');
 
 %% Exercise 1b)
+
 figure;
     subplot(2, 2, 1);
         imshow(dollyAmplitude, []);
@@ -37,6 +39,7 @@ figure;
         title('Phase');
 
 %% Exercise 1c)
+
 dollyBackFFT = real(fft2(dollyAmplitude .* exp(1i * dollyPhase)));
 dollyBackFFTcorrected = real(fft2(dollyAmplitude .* exp(-1i * dollyPhase)));
 dollyBackIFFT = real(ifft2(dollyAmplitude .* exp(1i * dollyPhase)));

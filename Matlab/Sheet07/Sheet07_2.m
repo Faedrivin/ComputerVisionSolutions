@@ -10,6 +10,7 @@ figure;
     for f = 1:numel(funcs)
         func = funcs{f};
         y = func(x);
+
         subplot(5, 3, 0 + f)
             plot(x, y);
             title(['func' num2str(f)]);
@@ -33,31 +34,40 @@ figure;
     end
 
 %% Exercise 2b)
+
 dolly = im2double(imread('../../images/dolly.png'));
 dollyFFT = fft2(dolly);
 dollyOwnFFT = fourierTransform2(dolly);
+
 figure;
     subplot(2, 4, 1);
         imshow(dolly, []);
         title('Original (this row: own)');
+
     subplot(2, 4, 2);
-        imshow(log(abs(dollyOwnFFT), []);
+        imshow(log(abs(dollyOwnFFT)), []);
         title('log amplitude');
+
     subplot(2, 4, 3);
         imshow(log(fftshift(abs(dollyOwnFFT))), []);
-        title('Amplitude');
+        title('log shift amplitude');
+
     subplot(2, 4, 4);
         imshow(angle(dollyOwnFFT), []);
         title('Phase');
+
     subplot(2, 4, 5);
         imshow(dolly, []);
         title('Original (this row: fft2)');
+
     subplot(2, 4, 6);
         imshow(log(abs(dollyFFT)), []);
         title('log amplitude');
+
     subplot(2, 4, 7);
         imshow(log(fftshift(abs(dollyFFT))), []);
         title('log shift amplitude');
+
     subplot(2, 4, 8);
         imshow(angle(dollyFFT), []);
         title('Phase');
