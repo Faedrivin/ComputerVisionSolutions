@@ -1,7 +1,6 @@
 function similarityImage = applyTemplate( image, template, similarityFun )
-%FILTERIMAGEFUNC Filters an image with the given kernel function.
-%   Iterates over all pixels of the image and applies the provided filter
-%   kernel.
+%APPLYTEMPLATE Apples a template to an image with a given similarity
+%   function.
 %   The similarity function should take an image patch and a template.
     image = rgb2gray(image);
     template = rgb2gray(template);
