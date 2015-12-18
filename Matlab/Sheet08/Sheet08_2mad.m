@@ -15,6 +15,7 @@ end
 %% 
 
 for imageName = images
+    disp(imageName{1, 1});
     image = im2double(imread(fullfile('../../images/', imageName{1, 1})));
 
     if scaling ~= 1
@@ -28,8 +29,8 @@ for imageName = images
 
     templateCount = numel(templates);
     templateScores = zeros(templateCount, 3);
-    parfor i = 1 : templateCount
-        tic;
+    for i = 1 : templateCount
+        disp(['Starting template ' num2str(i)]), tic;
         res = applyColorTemplate(image, templates{i}, @MAD);
         toc, disp(['Template ' num2str(i)]);
         meanRes = mean(res, 3);

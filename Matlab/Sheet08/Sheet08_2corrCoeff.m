@@ -28,7 +28,7 @@ for imageName = images
 
     templateCount = numel(templates);
     templateScores = zeros(templateCount, 3);
-    parfor i = 1 : templateCount
+    for i = 1 : templateCount
         tic;
         res = applyColorTemplate(image, templates{i}, @corrCoeff);
         toc, disp(['Template ' num2str(i)]);
