@@ -81,12 +81,12 @@ for i = 1 : M
     testData(i, :) = testImages{i}(:);
 end
 
-projectedTest = (testData - repmat(meanFace, N, 1)) * base;
+projectedTest = (testData - repmat(meanFace, M, 1)) * base;
 [~, I] = pdist2(featureVectors, projectedTest, 'euclidean', 'Smallest', Inf);
 
 figure;
     set(gcf, 'numbertitle', 'off', 'name', 'Classification with test set')
-    for i = 1 : 2 : 2 * N
+    for i = 1 : 2 : 2 * M
         subplot(5, 8, i)
             imshow(testImages{(i + 1) / 2}, []);
             title('testimage')
