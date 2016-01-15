@@ -39,7 +39,7 @@ figure; % plot eigenfaces
 meanFace = mean(trainingData);
 centeredFaces = trainingData - repmat(meanFace, N, 1);
 
-base = [coeff(:, 1:numberPCs) zeros(size(coeff) - [0 numberPCs - 1])];
+base = coeff(:, 1:numberPCs);
 featureVectors = centeredFaces * base;
 
 figure; % plot mean face
