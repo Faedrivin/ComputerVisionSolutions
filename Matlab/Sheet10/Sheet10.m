@@ -1,6 +1,6 @@
 lighthouse = rgb2gray(im2double(imread(fullfile('..','..','images','lighthouse.png'))));
 
-%% Exercise a)
+%% Exercise a) Gaussian pyramid
 Noctaves = 4;
 Nscales = 5;
 sigma = sqrt(2) .^ (0:(Nscales - 1)) * 0.5;
@@ -22,7 +22,7 @@ end
 
 plotOctaves(octaves);
 
-%% Exercise b)
+%% Exercise b) DoG images
 for o = 1 : Noctaves
     for s = Nscales : -1 : 2
         octaves{o, s} = octaves{o, s - 1} - octaves{o, s};
@@ -31,8 +31,7 @@ end
 
 plotOctaves(octaves);
 
-%% Exercise c)
-
+%% Exercise c) Extrema in DoG images
 keypoints = cell(1);
 count = 0;
 for o = 1 : Noctaves
@@ -59,8 +58,32 @@ end
 
 plotOctavesWithKeypoints(octaves, keypoints);
 
-%% Exercise d)
-% TODO hessian
+%% Exercise d) Hessian matrix as Harris Corner detection
+r = 10; % after Lowe paper
+i = 1;
+while i <= length(keypoints)
+    o = keypoints{i}(1);
+    s = keypoints{i}(2);
+    y = keypoints{i}(3);
+    x = keypoints{i}(4);
+
+    Dxr = octaves{o, s}(y, x - 1) - octaves{o, s}(y, x + 1);
+    Dxl = octaves{o, s}(y, x + 1) - octaves{o, s}(y, x - 1);
+    Dyd = octaves{o, s}(y - 1, x) - octaves{o, s}(y + 1, x);
+    Dyu = octaves{o, s}(y + 1, x) - octaves{o, s}(y - 1, x);
+    Dxx = Dxr * Dxl;
+    Dyy = Dyd * Dyu;
+    Dxy = Dxr * Dyd;
+    TrH = Dxx + Dyy;
+    DetH = Dxx * Dyy - Dxy ^ 2;
+    if TrH  ^ 2 / DetH > (r + 1) ^ 2 / r
+        keypoints(i) = [];
+    else
+        i = i + 1;
+    end
+end
+
+plotOctavesWithKeypoints(octaves, keypoints);
 
 %% Exercise e)
 threshold = 0.1;
