@@ -67,16 +67,16 @@ while i <= length(keypoints)
     y = keypoints{i}(3);
     x = keypoints{i}(4);
 
-    Dxr = octaves{o, s}(y, x - 1) - octaves{o, s}(y, x + 1);
-    Dxl = octaves{o, s}(y, x + 1) - octaves{o, s}(y, x - 1);
-    Dyd = octaves{o, s}(y - 1, x) - octaves{o, s}(y + 1, x);
-    Dyu = octaves{o, s}(y + 1, x) - octaves{o, s}(y - 1, x);
+    Dxr = octaves{o, s}(y, x) - octaves{o, s}(y, x + 1);
+    Dxl = octaves{o, s}(y, x - 1) - octaves{o, s}(y, x);
+    Dyu = octaves{o, s}(y, x) - octaves{o, s}(y + 1, x);
+    Dyd = octaves{o, s}(y - 1, x) - octaves{o, s}(y, x);
     Dxx = Dxr * Dxl;
-    Dyy = Dyd * Dyu;
+    Dyy = Dyu * Dyd;
     Dxy = Dxr * Dyd;
     TrH = Dxx + Dyy;
     DetH = Dxx * Dyy - Dxy ^ 2;
-    if TrH ^ 2 / DetH > (r + 1) ^ 2 / r
+    if DetH <= 0 || TrH ^ 2 / DetH > (r + 1) ^ 2 / r
         keypoints(i) = [];
     else
         i = i + 1;
@@ -86,7 +86,7 @@ end
 plotOctavesWithKeypoints(octaves, keypoints, lighthouse);
 
 %% Exercise e)
-threshold = 0.1;
+threshold = 0.05;
 i = 1;
 while i <= length(keypoints)
     if abs(keypoints{i}(5)) < threshold
