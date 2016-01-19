@@ -21,6 +21,7 @@ for o = 1 : Noctaves
 end
 
 plotOctaves(octaves);
+set(gcf, 'name', 'Octaves')
 
 %% Exercise b) DoG images
 for o = 1 : Noctaves
@@ -30,6 +31,7 @@ for o = 1 : Noctaves
 end
 
 plotOctaves(octaves);
+set(gcf, 'name', 'Scale space')
 
 %% Exercise c) Extrema in DoG images
 keypoints = cell(1);
@@ -40,9 +42,10 @@ for o = 1 : Noctaves
             for x = 2 : size(octaves{o, s}, 2) - 1
                 yInd = y - 1:y + 1;
                 xInd = x - 1:x + 1;
-                Ind = sub2ind(size(octaves{o, s-1}), [yInd' yInd' yInd'], [xInd; xInd; xInd]);
-                Ind = Ind(:)';
-                pix = [octaves{o, s-1}(Ind) octaves{o, s}(Ind) octaves{o, s+1}(Ind)];
+                pix = [octaves{o, s-1}(yInd, xInd) ...
+                       octaves{o, s}(yInd, xInd) ...
+                       octaves{o, s+1}(yInd, xInd)];
+                pix = pix(:)';
                 [~, c, ~] = find(pix == min(pix));
                 if c ~= 14
                     [~, c, ~] = find(pix == max(pix));
@@ -57,6 +60,7 @@ for o = 1 : Noctaves
 end
 
 plotOctavesWithKeypoints(octaves, keypoints, lighthouse);
+set(gcf, 'name', 'Extrema')
 
 %% Exercise d) Hessian matrix as Harris Corner detection
 r = 10;
@@ -66,16 +70,14 @@ while i <= length(keypoints)
     s = keypoints{i}(2);
     y = keypoints{i}(3);
     x = keypoints{i}(4);
+    
+    [Dx, Dy] = gradient(octaves{o, s}(y - 1:y + 1, x - 1:x + 1));
+    [Dxx, Dxy] = gradient(Dx);
+    [Dyx, Dyy] = gradient(Dy);
+    
+    TrH = Dxx(2, 2) + Dyy(2, 2);
+    DetH = Dxx(2, 2) * Dyy(2, 2) - Dxy(2, 2) * Dyx(2, 2);
 
-    Dxr = octaves{o, s}(y, x) - octaves{o, s}(y, x + 1);
-    Dxl = octaves{o, s}(y, x - 1) - octaves{o, s}(y, x);
-    Dyu = octaves{o, s}(y, x) - octaves{o, s}(y + 1, x);
-    Dyd = octaves{o, s}(y - 1, x) - octaves{o, s}(y, x);
-    Dxx = Dxr * Dxl;
-    Dyy = Dyu * Dyd;
-    Dxy = Dxr * Dyd;
-    TrH = Dxx + Dyy;
-    DetH = Dxx * Dyy - Dxy ^ 2;
     if DetH <= 0 || TrH ^ 2 / DetH > (r + 1) ^ 2 / r
         keypoints(i) = [];
     else
@@ -84,9 +86,10 @@ while i <= length(keypoints)
 end
 
 plotOctavesWithKeypoints(octaves, keypoints, lighthouse);
+set(gcf, 'name', 'Corner detection')
 
 %% Exercise e)
-threshold = 0.05;
+threshold = 0.1;
 i = 1;
 while i <= length(keypoints)
     if abs(keypoints{i}(5)) < threshold
@@ -98,3 +101,4 @@ end
 
 %% Exercise f)
 plotOctavesWithKeypoints(octaves, keypoints, lighthouse);
+set(gcf, 'name', 'Thresholding')
