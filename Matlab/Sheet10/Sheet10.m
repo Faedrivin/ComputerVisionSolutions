@@ -56,10 +56,10 @@ for o = 1 : Noctaves
     end
 end
 
-plotOctavesWithKeypoints(octaves, keypoints);
+plotOctavesWithKeypoints(octaves, keypoints, lighthouse);
 
 %% Exercise d) Hessian matrix as Harris Corner detection
-r = 10; % after Lowe paper
+r = 10;
 i = 1;
 while i <= length(keypoints)
     o = keypoints{i}(1);
@@ -76,14 +76,14 @@ while i <= length(keypoints)
     Dxy = Dxr * Dyd;
     TrH = Dxx + Dyy;
     DetH = Dxx * Dyy - Dxy ^ 2;
-    if TrH  ^ 2 / DetH > (r + 1) ^ 2 / r
+    if TrH ^ 2 / DetH > (r + 1) ^ 2 / r
         keypoints(i) = [];
     else
         i = i + 1;
     end
 end
 
-plotOctavesWithKeypoints(octaves, keypoints);
+plotOctavesWithKeypoints(octaves, keypoints, lighthouse);
 
 %% Exercise e)
 threshold = 0.1;
@@ -97,5 +97,4 @@ while i <= length(keypoints)
 end
 
 %% Exercise f)
-
-plotOctavesWithKeypoints(octaves, keypoints);
+plotOctavesWithKeypoints(octaves, keypoints, lighthouse);
