@@ -5,13 +5,13 @@ function desc = subregion_descriptor(magnitude, direction, bins)
 %     image patch.
 %     The bin is determined by the gradient direction and the value of the
 %     histogram bin is increased by the magnitude value.
-    directions = direction(:)
-    magnitudes = magnitude(:)
+    magnitudes = magnitude(:);
 
-    binBorders = linspace(min(directions), max(directions) + eps, bins);
-    desc = zeros(size(binBorders));
-    for i = 1 : length(directions)
-        [~, c, ~] = find(binBorders <= directions);
-        desc(max(c)) = desc(max(c)) + magnitudes(i);
+    binBorders = linspace(-181, 180, bins + 1);
+    desc = zeros(1, bins);
+    for i = 1 : bins
+        desc(i) = desc(i) ...
+                + sum( magnitudes(and(binBorders(i) < direction(:), ...
+                                      binBorders(i + 1) >= direction(:))));
     end
 end
