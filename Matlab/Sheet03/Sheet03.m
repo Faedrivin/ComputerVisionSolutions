@@ -1,7 +1,7 @@
 %% Exercise 1
 
 % replacement for missing webcam:
-url = '192.168.178.35';
+url = '127.0.0.1'; % replace with mobile phone IP
 %% just show the normal image as a stream
 applyWebcamFun(@(x) x, url);
 

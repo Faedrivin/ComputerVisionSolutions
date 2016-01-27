@@ -3,7 +3,7 @@
 % http://www.mathworks.com/help/images/examples/detect-and-measure-circular-objects-in-an-image.html
 
 if size(webcamlist, 1) == 0
-    cam = '192.168.178.35';
+    cam = '127.0.0.1';
     snap = @(ip) imread(strcat('http://', ip, ':8080/shot.jpg'));
 else
     cam = webcam;
